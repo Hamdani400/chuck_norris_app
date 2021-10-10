@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+
 import InputText from '../../Component/InputText/Input.js';
 import Button from '../../Component/Button/ButtonAction.js';
 import Result from '../../Component/Results/Result.js';
@@ -14,7 +15,7 @@ export default function Body () {
   const [searchValue, setSearchValue] = useState ('');
   const [categoryValue, setCategoryValue] = useState ('');
   const [categoryList, setCategoryList] = useState ([]);
-  const [isSearchingCategory, setIsSearchingCategory] = useState (false);
+  const [SuggestionCategory, setSuggestionCategory] = useState ([]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect (() => {
@@ -26,17 +27,6 @@ export default function Body () {
     });
   }, []);
 
-  useEffect (
-    () => {
-      if (categoryValue) {
-        setIsSearchingCategory (true);
-      } else {
-        setIsSearchingCategory (false);
-      }
-    },
-    [categoryValue]
-  );
-
   useEffect (() => {
     axios.get ('https://api.chucknorris.io/jokes/categories').then (res => {
       setCategoryList (res.data);
@@ -45,12 +35,15 @@ export default function Body () {
 
   const getSearchValue = e => {
     setSearchValue (e.target.value);
-    console.log ('aku anak' + searchValue);
+    console.log (searchValue);
   };
 
   const getCategoryValue = e => {
     setCategoryValue (e.target.value);
-    console.log (categoryValue);
+    let possibleCategory = categoryList.filter (text =>
+      text.includes (categoryValue)
+    );
+    setSuggestionCategory (possibleCategory);
   };
 
   const getRandomJoke = () => {
@@ -62,20 +55,20 @@ export default function Body () {
     });
   };
 
-  const showCategory = categoryList
-    .filter (text => text.includes (categoryValue))
-    .map ((text, index) => {
-      return (
-        <ul
-          onClick={() => {
-            setCategoryValue (text);
-          }}
-          key={`category-${index}`}
-        >
-          {text}
-        </ul>
-      );
-    });
+  const showSuggestionCategory = SuggestionCategory.map ((text, index) => {
+    return (
+      <ul
+        onClick={() => {
+          setCategoryValue (text);
+          console.log (categoryValue);
+          setSuggestionCategory ([]);
+        }}
+        key={`category-${index}`}
+      >
+        {text}
+      </ul>
+    );
+  });
 
   return (
     <section>
@@ -85,7 +78,18 @@ export default function Body () {
           placeholder="Search jokes by text"
           searchVal={getSearchValue}
         />
-        <Button text="Search!" width="91px" />
+        <Button
+          text="Search!"
+          width="91px"
+          href={{
+            pathname: `/search/${searchValue}`,
+            state: {
+              isSearchCategory: false,
+              search: searchValue,
+              sign: 'Search Text:',
+            },
+          }}
+        />
       </div>
       <div className="icon-wrapper">
         <ChuckNorrisIcon className="cn-icon" />
@@ -95,17 +99,25 @@ export default function Body () {
         <Button onClick={getRandomJoke} text="Another!" width="103px" />
       </div>
       <div className="list-of-category">
-        {isSearchingCategory && showCategory}
+        {SuggestionCategory && showSuggestionCategory}
       </div>
       <div className="input-wrapper category">
         <InputText
           className={['search-input']}
           placeholder="Search jokes by category"
           categoryVal={getCategoryValue}
+          value={categoryValue}
         />
         <Button
+          href={{
+            pathname: `/category/${categoryValue}`,
+            state: {
+              isSearchCategory: true,
+              category: categoryValue,
+              sign: 'Category:',
+            },
+          }}
           text="Search!"
-          onClick={() => console.log (categoryValue)}
           width="91px"
         />
       </div>

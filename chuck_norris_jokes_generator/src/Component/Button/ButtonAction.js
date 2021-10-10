@@ -1,21 +1,19 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
+
 import './ButtonAction.scss';
 
 export default function ButtonAction (props) {
-  const onClick = () => {
-    if (props.onClick) props.onClick ();
-  };
-
   return (
     <div>
-      <button
-        onClick={onClick}
+      <Link
+        to={props.href}
         style={{width: props.width}}
         type="button"
         className="btn"
       >
         {props.text}
-      </button>
+      </Link>
     </div>
   );
 }

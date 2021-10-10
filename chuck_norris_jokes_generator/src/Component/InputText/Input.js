@@ -13,6 +13,7 @@ export default function Input (props) {
       className={`input-section ${props.className && props.className.join (' ')}`}
     >
       <input
+        value={props.value}
         type="text"
         placeholder={props.placeholder}
         onInput={onInputHandler}

@@ -31,8 +31,14 @@
 
         .list-of-category {
             position: absolute;
-            bottom: 58px;
-            left: 33px;
+            background-color: white;
+            width: 236px;
+            bottom: 65px;
+            left: 16px;
+            box-shadow: -3px 3px 20px -8px rgba(0,0,0,0.75);
+            -webkit-box-shadow: -3px 3px 20px -8px rgba(0,0,0,0.75);
+            -moz-box-shadow: -3px 3px 20px -8px rgba(0,0,0,0.75);
+            padding-left: 17px;
             
             ul {
                 font-weight: 700;
