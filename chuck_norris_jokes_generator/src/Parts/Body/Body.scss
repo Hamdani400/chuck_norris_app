@@ -5,6 +5,12 @@
 
         .input-wrapper {
             display: flex;
+
+            &.category {
+                position: absolute;
+                bottom: 0;
+                margin-bottom: 16px;
+            }
         }
         
         .icon-wrapper {
@@ -14,6 +20,24 @@
 
             .cn-icon {
                 width: 60px;
+            }
+        }
+
+        .random-button {
+            display: flex;
+            justify-content: center;
+            margin-top: 34px;
+        }
+
+        .list-of-category {
+            position: absolute;
+            bottom: 58px;
+            left: 33px;
+            
+            ul {
+                font-weight: 700;
+                margin: 5px 0;
+                padding: 0;
             }
         }
     }
