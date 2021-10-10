@@ -35,7 +35,6 @@ export default function Body () {
 
   const getSearchValue = e => {
     setSearchValue (e.target.value);
-    console.log (searchValue);
   };
 
   const getCategoryValue = e => {
@@ -60,7 +59,6 @@ export default function Body () {
       <ul
         onClick={() => {
           setCategoryValue (text);
-          console.log (categoryValue);
           setSuggestionCategory ([]);
         }}
         key={`category-${index}`}

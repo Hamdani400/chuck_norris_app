@@ -18,14 +18,28 @@ export default function ResultPage (props) {
         `${props.location.state.isSearchCategory ? urlCategory : urlSearch}`
       )
       .then (res => {
-        const data = res.data.result;
-        setText (data.map (item => item.value));
+        if (!props.location.state.isSearchCategory) {
+          const data = res.data.result;
+          setText (data.map (item => item.value));
+        }
+        if (props.location.state.isSearchCategory) {
+          let singleValue = [];
+          singleValue.push (res.data.value);
+          setText (singleValue);
+        }
+      })
+      .catch (e => {
+        console.log (e);
+        let errorMessage = [];
+        errorMessage.push (e);
+        setText (errorMessage);
       });
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="container">
-      <Header />
+      <Header isResultPage />
       <div className="icon-wrapper d-flex">
         <ChuckNorrisIcon />
       </div>
